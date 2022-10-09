@@ -1,0 +1,32 @@
+payload?
+
+목적어도 액션객체에 담아 같이 보내줘야 할 것이 있을때 그것을 우리는 payload라고 부른다.
+
+- **`payload`를 이용해서 기능 구현 작업 순서**
+    
+    기능 구현은 아래 순서대로 작업할 것 입니다.
+    
+    1. 사용자가 입력한 값을 받을 input 구현하기
+    2. Action Creator 작성하기
+    3. 리듀서 작성하기
+    4. 구현된 기능 테스트 하기
+
+
+Ducks 패턴
+
+Erik Rasmussn 라는 개발자가 수많은 파일중 내가 필요로 하는 구성요소를 찾는방식을 패턴화 하여 작성하는것을 제안했다.
+그것이 Ducks 패턴. 
+사실 우리는 이미 Ducks 패턴으로 코드를 작성하고 있다.
+
+Ducks 패턴은 아래의 내용을 지켜 모듈을 작성
+1. Reducer 함수를 export default 한다.
+2. Action creator 함수들을 export 한다.
+3. Action type은 app/reducer/ACTION_TYPE 형태로 작성한다.
+
+
+정리
+- 리듀서로 보내는 액션객체에 어떤 정보를 같이 담아보내고자 한다면 payload를 이용한다.
+- `payload`는 **Action Creator를 생성할 때 매개변수에 자리에서 받을 준비를 하고, 반환하는 액션객체에 payload라는 key와 받은 매개변수를 value로 하여 구현**한다.
+- 리듀서에서 payload를 사용하고자 할 때는 **action.payload로 사용**할 수 있다.
+- ES6에서 **객체를 생성할 때 key와 value가 같으면 축약해서 작성**할 수 있다.
+- `Ducks` 패턴은 `Erik Rasmussn` 이 제안했고, 현재 리덕스 모듈 작성방법의 정석으로 여겨지고 있다.

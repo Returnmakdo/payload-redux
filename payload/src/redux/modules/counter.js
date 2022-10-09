@@ -32,7 +32,7 @@ const counter = (state = initialState, action) => {
             }
         case MINUS_NUMBER:
             return{
-                // state.number (기존의 number)에 action.payload(유저가 더하길 원하는값)을 더한다.
+                // state.number (기존의 number)에 action.payload(유저가 빼길 원하는값)을 뺀다.
                 number : state.number - action.payload
             }
         default:
