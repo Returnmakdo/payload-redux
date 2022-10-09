@@ -1,0 +1,118 @@
+Action Creator?
+
+액션객체의 value를 변경할 일이 생길때 하드코딩을 해서 value값을 줬다면
+만약 100군데에 사용을 한다고 쳤을때 100개의 코드들을 수정해줘야하기때문에 번거롭다.
+그래서 하드코딩을 하는것이 아니라, 액션객체를 한 곳에서 관리할 수 있도록 함수와 액션value를 상수로 만든다.
+
+ex)
+const PLUS_ONE = "PLUS_ONE"; // value는 상수로 생성
+
+// 액션객체를 반환하는 함수 생성
+// export 가 붙는 이유는 plusOne()는 밖으로 나가서 사용될 예정이기 때문입니다.
+export const plusOne = () => { 
+  return {
+    type: PLUS_ONE, // type에는 위에서 만든 상수로 사용 (vscode에서 자동완성 지원)
+  };
+};
+
+
+counter.js Reducer코드
+// 추가된 코드 👇 - 액션 value를 상수들로 만들어 줍니다. 보통 이렇게 한곳에 모여있습니다.
+const PLUS_ONE = "PLUS_ONE";
+const MINUS_ONE = "MINUS_ONE";
+
+
+// 추가된 코드 👇 - Action Creator를 만들어 줍니다. 
+export const plusOne = () => {
+  return {
+    type: PLUS_ONE,
+  };
+};
+
+export const minusOne = () => {
+  return {
+    type: MINUS_ONE,
+  };
+};
+
+
+// 초기 상태값
+const initialState = {
+  number: 0,
+};
+
+// 리듀서
+const counter = (state = initialState, action) => {
+  switch (action.type) {
+    case PLUS_ONE: // case에서도 문자열이 아닌, 위에서 선언한 상수를 넣어줍니다. 
+      return {
+        number: state.number + 1,
+      };
+    case MINUS_ONE: // case에서도 문자열이 아닌, 위에서 선언한 상수를 넣어줍니다. 
+      return {
+        number: state.number - 1,
+      };
+    default:
+      return state;
+  }
+};
+
+
+export default counter;
+
+
+//////////
+Action Creator 사용하기
+
+1. export된 Action Creator import하기
+2. dispatch()에 있던 액션객체를 지우고, Action creator 넣기
+
+// src/App.js
+
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+// 사용할 Action creator를 import 합니다.
+import { minusOne, plusOne } from "./redux/modules/counter";
+
+const App = () => {
+  const dispatch = useDispatch();
+  const number = useSelector((state) => state.counter.number);
+
+  return (
+    <div>
+      {number}
+      <button
+        onClick={() => {
+          dispatch(plusOne()); // 액션객체를 Action creator로 변경합니다.
+        }}
+      >
+        + 1
+      </button>
+      {/* 빼기 버튼 추가 */}
+      <button
+        onClick={() => {
+          dispatch(minusOne()); // 액션객체를 Action creator로 변경합니다.
+        }}
+      >
+        - 1
+      </button>
+    </div>
+  );
+};
+
+export default App;
+
+
+왜 Action creator를 사용?
+
+오타방지
+유지보수의 효율성 증가
+코드 가독성
+
+
+// 정리
+ - 액션객체를 만드는 함수를 Action Creator라고한다.
+ -  Action Creator는 모듈파일 안에서 생성된다.
+ - 액션객체의 type value로 상수로 생성해서 관리한다.
+ - Action Creator를 사용하면 여러가지 문제점을 해소할 수 있다.
